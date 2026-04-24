@@ -3,10 +3,10 @@
 -- 适配 API_doc.md 接口定义
 -- ============================================================
 
-CREATE DATABASE IF NOT EXISTS stray_cat_campus
+CREATE DATABASE IF NOT EXISTS campus_cat_db
   CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-USE stray_cat_campus;
+USE campus_cat_db;
 
 
 -- 1. 用户表
