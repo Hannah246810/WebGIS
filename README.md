@@ -11,7 +11,11 @@
 
 ---
 
+### 项目演示视频
 
+<video src="./video/demo.mp4" width="100%" controls>
+  您的浏览器不支持 HTML5 视频播放。
+</video>
 
 ## 🚀 快速启动指南
 
