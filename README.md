@@ -1,42 +1,76 @@
-# WebGIS
-# 校园流浪猫地图系统 (Campus Cat Map)
+# 🐱 校园流浪猫地图系统 (Campus Cat Map)
 
-## 📖 项目简介
-本项目是一个旨在改善校园流浪猫管理、促进人猫和谐共处的综合服务平台。通过 GIS 地图技术标注猫咪出没点位，结合 AI 识别技术建立精准的猫咪电子档案，并提供打卡、投喂记录及科普引导功能。
+本项目是一个为校园流浪猫设计的管理与互动平台。支持查看猫咪电子档案、地图定位出没点、以及用户偶遇/投喂打卡功能。
+
+---
 
 ## 🛠 技术栈
-* [cite_start]**前端**: HTML5, CSS3, JavaScript (Vite 驱动) [cite: 4, 8]
-* [cite_start]**后端**: Node.js, Express 框架 [cite: 4, 6]
-* [cite_start]**数据库**: PostgreSQL [cite: 3, 4]
-* [cite_start]**关键库**: `pg` (PostgreSQL client), `cors`, `dotenv` 
+* **前端**: Vue 3 + Axios + Leaflet (地图引擎)
+* **后端**: Node.js + Express
+* **数据库**: PostgreSQL 18+
 
-## 🚀 启动步骤
+---
 
-### 1. 数据库配置
-1.  确保本地已安装 **PostgreSQL**。
-2.  使用命令行或 pgAdmin 创建数据库 `campus_cat_db`。
-3.  [cite_start]导入项目根目录下的 `init.sql` 文件以初始化表结构（猫咪档案、打卡记录、评论等）：
-    ```bash
-    # 使用 psql 导入
-    psql -U postgres -d campus_cat_db -f init.sql
+## 🚀 快速启动指南
+
+为了让程序在您的环境中成功运行，请按照以下步骤配置：
+
+### 1. 数据库准备 (PostgreSQL)
+1.  打开 **pgAdmin 4** 或使用命令行。
+2.  新建一个数据库，命名为：`campus_cat_db`。
+3.  在该数据库中执行项目根目录下的 `init.sql` 脚本。
+    * 此操作将自动创建 `cats`（档案表）和 `checkins`（记录表）。
+    * 脚本中已包含部分测试数据（大黄、小黑等）。
+
+### 2. 后端配置 (Backend)
+1.  进入 `backend` 目录。
+2.  找到 `.env.example` 文件（如果没有，请手动创建 `.env`）。
+3.  **关键步骤**：修改 `.env` 文件中的数据库连接信息：
+    ```env
+    DB_USER=postgres
+    DB_HOST=localhost
+    DB_DATABASE=campus_cat_db
+    DB_PASSWORD=您的数据库密码  <-- 修改这里
+    DB_PORT=5432
     ```
-4.  [cite_start]在 `sever.js` 中检查并修改 `Pool` 的连接配置（包括 `user`, `host`, `database`, `password`, `port`）。
+4.  安装依赖并启动：
+    ```bash
+    npm install
+    node server.js
+    ```
+    *后端默认运行在: http://localhost:3000*
 
-### 2. 后端启动
-```bash
-# 安装依赖
-npm install
-# 启动 Express 服务器
-node sever.js
-[cite_start]后端服务将运行在 `http://localhost:3000` [cite: 6]。
+### 3. 前端配置 (Frontend)
+1.  进入 `frontend` 目录。
+2.  安装依赖并启动：
+    ```bash
+    npm install
+    npm run dev
+    ```
+3.  在浏览器中打开显示的本地链接（通常是 `http://localhost:5173`）。
 
-### 3. 前端运行
-```bash
-# 使用 Vite 启动开发服务器
-npm run dev
-```
-[cite_start]访问生成的本地地址即可预览界面 [cite: 4]。
+---
 
-## 📄 接口入口
-- [cite_start]**接口文档**: 参考项目根目录下的 `API_doc.md` [cite: 1, 2]。
-- **基础访问**: `http://localhost:3000/api`
+## 📂 项目结构说明
+
+- `/backend`
+  - `server.js`: 基于 Express 的 API 服务器，包含猫咪查询与打卡接口。
+  - `.env`: 环境变量配置文件（包含数据库密码）。
+  - `init.sql`: 数据库初始化脚本（含表结构和初始数据）。
+- `/frontend`
+  - `src/App.vue`: 前端主页面，集成 Leaflet 地图与移动端交互面板。
+  - `package.json`: 前端依赖管理。
+- `API_doc.md`: 详细的后端接口定义文档。
+
+---
+
+## 💡 功能亮点
+- **实时定位**：用户在地图上点击即可获取经纬度，精准上报猫咪位置。
+- **动态更新**：前端上报位置后，后端同步更新，地图图标实时刷新。
+- **分类统计**：支持“偶遇”与“投喂”两种类型的打卡记录。
+- **响应式设计**：适配移动端高度的交互面板（Bottom Sheet）。
+
+---
+
+## ✉️ 备注
+如果在运行过程中遇到数据库连接失败，请确认 PostgreSQL 服务已开启且 `.env` 中的端口与密码正确。
